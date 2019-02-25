@@ -51,18 +51,18 @@ func main() {
 	panic(http.ListenAndServe(address, r))
 }
 
-func handleSecret(res http.ResponseWriter, req *http.Request) {
-	path := req.URL.Path
+func handleSecret(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path
 	err := api.ValidateSecretPath(path)
 	if err != nil {
-		res.WriteHeader(http.StatusBadRequest)
-		io.WriteString(res, err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		io.WriteString(w, err.Error())
 		return
 	}
 
-	switch req.Method {
+	switch r.Method {
 	case "GET":
-		sec, err := client.Secrets().Versions().GetWithData(path)
+		secret, err := client.Secrets().Versions().GetWithData(path)
 		if err != nil {
 			var errCode int
 
@@ -79,19 +79,18 @@ func handleSecret(res http.ResponseWriter, req *http.Request) {
 				errCode = http.StatusInternalServerError
 			}
 
-			res.WriteHeader(errCode)
-			io.WriteString(res, err.Error())
+			w.WriteHeader(errCode)
+			io.WriteString(w, err.Error())
 			return
 		}
 
-		res.WriteHeader(http.StatusOK)
-		res.Write(sec.Data)
-		return
+		w.WriteHeader(http.StatusOK)
+		w.Write(secret.Data)
 	case "POST":
-		secret, err := ioutil.ReadAll(req.Body)
+		secret, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			res.WriteHeader(http.StatusInternalServerError)
-			io.WriteString(res, err.Error())
+			w.WriteHeader(http.StatusInternalServerError)
+			io.WriteString(w, err.Error())
 			return
 		}
 
@@ -114,14 +113,14 @@ func handleSecret(res http.ResponseWriter, req *http.Request) {
 				errCode = http.StatusInternalServerError
 			}
 
-			res.WriteHeader(errCode)
-			io.WriteString(res, err.Error())
+			w.WriteHeader(errCode)
+			io.WriteString(w, err.Error())
 			return
 		}
 
-		res.WriteHeader(http.StatusCreated)
+		w.WriteHeader(http.StatusCreated)
 	default:
-		res.Header().Add("Allow", "GET, POST")
-		res.WriteHeader(http.StatusMethodNotAllowed)
+		w.Header().Add("Allow", "GET, POST")
+		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
