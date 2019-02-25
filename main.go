@@ -10,6 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/keylockerbv/secrethub-go/pkg/api"
+	"github.com/keylockerbv/secrethub-go/pkg/errio"
 	"github.com/keylockerbv/secrethub-go/pkg/secrethub"
 )
 
@@ -54,7 +55,7 @@ func handleSecret(res http.ResponseWriter, req *http.Request) {
 	path := req.URL.Path
 	err := api.ValidateSecretPath(path)
 	if err != nil {
-		res.WriteHeader(http.StatusNotFound)
+		res.WriteHeader(http.StatusBadRequest)
 		io.WriteString(res, err.Error())
 		return
 	}
@@ -63,11 +64,22 @@ func handleSecret(res http.ResponseWriter, req *http.Request) {
 	case "GET":
 		sec, err := client.Secrets().Versions().GetWithData(path)
 		if err != nil {
-			if err == api.ErrSecretNotFound {
-				res.WriteHeader(http.StatusOK)
-				return
+			var errCode int
+
+			if err, ok := err.(errio.PublicStatusError); ok {
+				errCode = err.StatusCode
 			}
-			res.WriteHeader(http.StatusInternalServerError)
+
+			switch err {
+			case api.ErrSecretNotFound:
+				errCode = http.StatusNoContent
+			}
+
+			if errCode == 0 {
+				errCode = http.StatusInternalServerError
+			}
+
+			res.WriteHeader(errCode)
 			io.WriteString(res, err.Error())
 			return
 		}
@@ -85,13 +97,31 @@ func handleSecret(res http.ResponseWriter, req *http.Request) {
 
 		_, err = client.Secrets().Write(path, secret)
 		if err != nil {
-			res.WriteHeader(http.StatusInternalServerError)
+			var errCode int
+
+			if err, ok := err.(errio.PublicStatusError); ok {
+				errCode = err.StatusCode
+			}
+
+			switch err {
+			case secrethub.ErrCannotWriteToVersion,
+				secrethub.ErrEmptySecret,
+				secrethub.ErrSecretTooBig:
+				errCode = http.StatusBadRequest
+			}
+
+			if errCode == 0 {
+				errCode = http.StatusInternalServerError
+			}
+
+			res.WriteHeader(errCode)
 			io.WriteString(res, err.Error())
 			return
 		}
 
-		res.WriteHeader(http.StatusOK)
+		res.WriteHeader(http.StatusCreated)
 	default:
-		res.WriteHeader(http.StatusNotFound)
+		res.Header().Add("Allow", "GET, POST")
+		res.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
