@@ -42,13 +42,22 @@ func init() {
 }
 
 func main() {
-	r := mux.NewRouter()
-	r.PathPrefix("/secrets/").Handler(
-		http.StripPrefix("/secrets/", http.HandlerFunc(handleSecret)),
+	err := startHTTPServer()
+	if err != nil {
+		panic(err)
+	}
+}
+
+func startHTTPServer() error {
+	mux := mux.NewRouter()
+	v1 := mux.PathPrefix("/v1/").Subrouter()
+
+	v1.PathPrefix("/secrets/").Handler(
+		http.StripPrefix("/v1/secrets/", http.HandlerFunc(handleSecret)),
 	)
 
 	fmt.Println("SecretHub Clientd started, press ^C to exit")
-	panic(http.ListenAndServe(address, r))
+	return http.ListenAndServe(address, mux)
 }
 
 func handleSecret(w http.ResponseWriter, r *http.Request) {
