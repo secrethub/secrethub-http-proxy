@@ -17,14 +17,14 @@ import (
 var (
 	credential           string
 	credentialPassphrase string
-	address              string
+	port                 int
 	client               secrethub.Client
 )
 
 func init() {
-	flag.StringVar(&credential, "c", "", "(Required) SecretHub credential")
-	flag.StringVar(&credentialPassphrase, "p", "", "Passphrase to unlock SecretHub credential")
-	flag.StringVar(&address, "a", ":8080", "HTTP server address")
+	flag.StringVar(&credential, "C", "", "(Required) SecretHub credential")
+	flag.StringVar(&credentialPassphrase, "P", "", "Passphrase to unlock SecretHub credential")
+	flag.IntVar(&port, "p", 8080, "HTTP port to listen on")
 	flag.Parse()
 
 	if credential == "" {
@@ -56,7 +56,7 @@ func startHTTPServer() error {
 	)
 
 	fmt.Println("SecretHub Clientd started, press ^C to exit")
-	return http.ListenAndServe(address, mux)
+	return http.ListenAndServe(fmt.Sprintf(":%v", port), mux)
 }
 
 func handleSecret(w http.ResponseWriter, r *http.Request) {
