@@ -78,11 +78,6 @@ func handleSecret(w http.ResponseWriter, r *http.Request) {
 				errCode = err.StatusCode
 			}
 
-			switch err {
-			case api.ErrSecretNotFound:
-				errCode = http.StatusNoContent
-			}
-
 			if errCode == 0 {
 				errCode = http.StatusInternalServerError
 			}
