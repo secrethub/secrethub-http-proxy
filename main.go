@@ -29,13 +29,12 @@ func init() {
 
 	if credential == "" {
 		flag.Usage()
-		os.Exit(1)
+		exit(fmt.Errorf("credential is required"))
 	}
 
 	cred, err := secrethub.NewCredential(credential, credentialPassphrase)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		exit(err)
 	}
 
 	client = secrethub.NewClient(cred, nil)
@@ -44,8 +43,7 @@ func init() {
 func main() {
 	err := startHTTPServer()
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		exit(err)
 	}
 }
 
@@ -133,4 +131,9 @@ func handleSecret(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Allow", "GET, POST")
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
+}
+
+func exit(err error) {
+	fmt.Printf("secrethub-clientd: error: %v\n", err)
+	os.Exit(1)
 }
