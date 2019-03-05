@@ -3,7 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/keylockerbv/secrethub-clientd/pkg/restproxy"
 	"github.com/keylockerbv/secrethub-go/pkg/secrethub"
@@ -36,18 +39,36 @@ func init() {
 }
 
 func main() {
-	clientd := restproxy.SecretHubRESTProxy{
-		Client: &client,
-		Port:   port,
+	proxy := restproxy.NewSecretHubRESTProxy(client, port)
+
+	go gracefulShutdown(proxy)
+
+	log("SecretHub REST proxy started, press ^C to stop it")
+	err := proxy.Start()
+	if err != nil && err != http.ErrServerClosed {
+		exit(err)
 	}
-	fmt.Println("SecretHub REST proxy started, press ^C to stop it")
-	err := clientd.Start()
+}
+
+func gracefulShutdown(proxy restproxy.SecretHubProxy) {
+	sigint := make(chan os.Signal, 1)
+
+	signal.Notify(sigint, os.Interrupt)
+	signal.Notify(sigint, syscall.SIGTERM)
+	<-sigint
+
+	log("Shutting down gracefully...")
+	err := proxy.Stop()
 	if err != nil {
 		exit(err)
 	}
 }
 
 func exit(err error) {
-	fmt.Printf("secrethub-clientd: error: %v\n", err)
+	fmt.Printf("secrethub-proxy: error: %v\n", err)
 	os.Exit(1)
+}
+
+func log(message string) {
+	fmt.Printf("secrethub-proxy: %v\n", message)
 }

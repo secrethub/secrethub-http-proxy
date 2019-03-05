@@ -1,6 +1,7 @@
 package restproxy
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -12,25 +13,56 @@ import (
 	"github.com/keylockerbv/secrethub/core/errio"
 )
 
-// SecretHubRESTProxy exposes SecretHub Client functionality with a RESTful interface
-type SecretHubRESTProxy struct {
-	Port   int
-	Client *secrethub.Client
+// SecretHubProxy gives the SecretHub Client a certain communication layer
+type SecretHubProxy interface {
+	Start() error
+	Stop() error
 }
 
-// Start starts the SecretHub REST proxy
-func (c *SecretHubRESTProxy) Start() error {
-	mux := mux.NewRouter()
-	v1 := mux.PathPrefix("/v1/").Subrouter()
+type secretHubRESTProxy struct {
+	SecretHubProxy
+	client secrethub.Client
+	server *http.Server
+}
+
+// NewSecretHubRESTProxy creates a proxy of the SecretHub Client, giving it a RESTful interface
+func NewSecretHubRESTProxy(client secrethub.Client, port int) SecretHubProxy {
+	if port == 0 {
+		port = 8080
+	}
+
+	router := mux.NewRouter()
+	proxy := &secretHubRESTProxy{
+		client: client,
+		server: &http.Server{
+			Addr:    fmt.Sprintf(":%v", port),
+			Handler: router,
+		},
+	}
+	proxy.addRoutes(router)
+
+	return proxy
+}
+
+func (proxy *secretHubRESTProxy) addRoutes(r *mux.Router) {
+	v1 := r.PathPrefix("/v1/").Subrouter()
 
 	v1.PathPrefix("/secrets/").Handler(
-		http.StripPrefix("/v1/secrets/", http.HandlerFunc(c.handleSecret)),
+		http.StripPrefix("/v1/secrets/", http.HandlerFunc(proxy.handleSecret)),
 	)
-
-	return http.ListenAndServe(fmt.Sprintf(":%v", c.Port), mux)
 }
 
-func (c *SecretHubRESTProxy) handleSecret(w http.ResponseWriter, r *http.Request) {
+// Start starts the SecretHub REST proxy, starting an HTTP server
+func (proxy *secretHubRESTProxy) Start() error {
+	return proxy.server.ListenAndServe()
+}
+
+// Stop stops the SecretHub REST proxy, stopping the HTTP server
+func (proxy *secretHubRESTProxy) Stop() error {
+	return proxy.server.Shutdown(context.Background())
+}
+
+func (proxy *secretHubRESTProxy) handleSecret(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	err := api.ValidateSecretPath(path)
 	if err != nil {
@@ -41,7 +73,7 @@ func (c *SecretHubRESTProxy) handleSecret(w http.ResponseWriter, r *http.Request
 
 	switch r.Method {
 	case "GET":
-		secret, err := (*c.Client).Secrets().Versions().GetWithData(path)
+		secret, err := proxy.client.Secrets().Versions().GetWithData(path)
 		if err != nil {
 			var errCode int
 
@@ -68,7 +100,7 @@ func (c *SecretHubRESTProxy) handleSecret(w http.ResponseWriter, r *http.Request
 			return
 		}
 
-		_, err = (*c.Client).Secrets().Write(path, secret)
+		_, err = proxy.client.Secrets().Write(path, secret)
 		if err != nil {
 			var errCode int
 
