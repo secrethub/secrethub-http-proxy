@@ -1,65 +1,36 @@
-package main
+package restproxy
 
 import (
-	"flag"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/mux"
-	"github.com/keylockerbv/secrethub-go/pkg/api"
-	"github.com/keylockerbv/secrethub-go/pkg/errio"
 	"github.com/keylockerbv/secrethub-go/pkg/secrethub"
+	"github.com/keylockerbv/secrethub/api"
+	"github.com/keylockerbv/secrethub/core/errio"
 )
 
-var (
-	credential           string
-	credentialPassphrase string
-	port                 int
-	client               secrethub.Client
-)
-
-func init() {
-	flag.StringVar(&credential, "C", "", "(Required) SecretHub credential")
-	flag.StringVar(&credentialPassphrase, "P", "", "Passphrase to unlock SecretHub credential")
-	flag.IntVar(&port, "p", 8080, "HTTP port to listen on")
-	flag.Parse()
-
-	if credential == "" {
-		flag.Usage()
-		exit(fmt.Errorf("credential is required"))
-	}
-
-	cred, err := secrethub.NewCredential(credential, credentialPassphrase)
-	if err != nil {
-		exit(err)
-	}
-
-	client = secrethub.NewClient(cred, nil)
+// SecretHubRESTProxy exposes SecretHub Client functionality with a RESTful interface
+type SecretHubRESTProxy struct {
+	Port   int
+	Client *secrethub.Client
 }
 
-func main() {
-	err := startHTTPServer()
-	if err != nil {
-		exit(err)
-	}
-}
-
-func startHTTPServer() error {
+// Start starts the SecretHub REST proxy
+func (c *SecretHubRESTProxy) Start() error {
 	mux := mux.NewRouter()
 	v1 := mux.PathPrefix("/v1/").Subrouter()
 
 	v1.PathPrefix("/secrets/").Handler(
-		http.StripPrefix("/v1/secrets/", http.HandlerFunc(handleSecret)),
+		http.StripPrefix("/v1/secrets/", http.HandlerFunc(c.handleSecret)),
 	)
 
-	fmt.Println("SecretHub Clientd started, press ^C to exit")
-	return http.ListenAndServe(fmt.Sprintf(":%v", port), mux)
+	return http.ListenAndServe(fmt.Sprintf(":%v", c.Port), mux)
 }
 
-func handleSecret(w http.ResponseWriter, r *http.Request) {
+func (c *SecretHubRESTProxy) handleSecret(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	err := api.ValidateSecretPath(path)
 	if err != nil {
@@ -70,7 +41,7 @@ func handleSecret(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		secret, err := client.Secrets().Versions().GetWithData(path)
+		secret, err := (*c.Client).Secrets().Versions().GetWithData(path)
 		if err != nil {
 			var errCode int
 
@@ -97,7 +68,7 @@ func handleSecret(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		_, err = client.Secrets().Write(path, secret)
+		_, err = (*c.Client).Secrets().Write(path, secret)
 		if err != nil {
 			var errCode int
 
@@ -126,9 +97,4 @@ func handleSecret(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Allow", "GET, POST")
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
-}
-
-func exit(err error) {
-	fmt.Printf("secrethub-clientd: error: %v\n", err)
-	os.Exit(1)
 }
