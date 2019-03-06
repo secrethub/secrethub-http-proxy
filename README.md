@@ -1,1 +1,1 @@
-# secrethub-clientd
+# secrethub-proxy
