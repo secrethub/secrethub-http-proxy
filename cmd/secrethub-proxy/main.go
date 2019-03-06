@@ -8,8 +8,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/keylockerbv/secrethub-clientd/pkg/restproxy"
 	"github.com/keylockerbv/secrethub-go/pkg/secrethub"
+	"github.com/keylockerbv/secrethub-proxy/pkg/restproxy"
 )
 
 var (
@@ -39,7 +39,7 @@ func init() {
 }
 
 func main() {
-	proxy := restproxy.NewSecretHubRESTProxy(client, port)
+	proxy := restproxy.NewRESTProxy(client, port)
 
 	go gracefulShutdown(proxy)
 
@@ -50,7 +50,7 @@ func main() {
 	}
 }
 
-func gracefulShutdown(proxy restproxy.SecretHubProxy) {
+func gracefulShutdown(proxy restproxy.ClientProxy) {
 	sigint := make(chan os.Signal, 1)
 
 	signal.Notify(sigint, os.Interrupt)

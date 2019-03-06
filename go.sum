@@ -29,6 +29,7 @@ github.com/jmoiron/sqlx v1.2.0 h1:41Ip0zITnmWNR/vHV+S4m+VoUivnWY5E4OJfLZjCJMA=
 github.com/jmoiron/sqlx v1.2.0/go.mod h1:1FEQNm3xlJgrMD+FBdI9+xvCksHtbpVBBw5dYhBSsks=
 github.com/keylockerbv/secrethub v0.17.0 h1:ynvH2JWotytvtLpGE8Bu4hPIV1m+OS/tTlmTGlv8Hmk=
 github.com/keylockerbv/secrethub v0.17.0/go.mod h1:EibHbXBS5k+Cw+XEo4rveG+ONA2Czl1VFpVl7+jDYOc=
+github.com/keylockerbv/secrethub-clientd v0.0.0-20190225134359-9c3d34a96705 h1:5fRK0U5z2CtqZsRha/5+cdyazD/4zjzcfODaoE2ZCzI=
 github.com/keylockerbv/secrethub-go v0.0.0-20190225132925-244d98858e9d h1:NxCFGfkmBF9RaloxF5c/J5knS3FE/g+uWOZ9ENucc1M=
 github.com/keylockerbv/secrethub-go v0.0.0-20190225132925-244d98858e9d/go.mod h1:U086plZMagUfy92G4DgCsRAns20Q5j+Rf8bYDXiDxMw=
 github.com/kr/pretty v0.1.0 h1:L/CwN0zerZDmRFUapSPitk6f+Q3+0za1rQkzVuMiMFI=
