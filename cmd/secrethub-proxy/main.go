@@ -8,8 +8,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/keylockerbv/secrethub-go/pkg/secrethub"
 	"github.com/keylockerbv/secrethub-proxy/pkg/restproxy"
+	"github.com/secrethub/secrethub-go/pkg/secrethub"
 )
 
 var (
