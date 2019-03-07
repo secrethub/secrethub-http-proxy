@@ -16,13 +16,15 @@ var (
 	credential           string
 	credentialPassphrase string
 	port                 int
+	host                 string
 	client               secrethub.Client
 )
 
 func init() {
 	flag.StringVar(&credential, "C", "", "(Required) SecretHub credential")
 	flag.StringVar(&credentialPassphrase, "P", "", "Passphrase to unlock SecretHub credential")
-	flag.IntVar(&port, "p", 8080, "HTTP port to listen on")
+	flag.IntVar(&port, "p", 8080, "Port to listen on")
+	flag.StringVar(&host, "h", "localhost", "Host to listen on")
 	flag.Parse()
 
 	if credential == "" {
@@ -39,7 +41,7 @@ func init() {
 }
 
 func main() {
-	proxy := restproxy.NewRESTProxy(client, port)
+	proxy := restproxy.NewRESTProxy(client, host, port)
 
 	go gracefulShutdown(proxy)
 
