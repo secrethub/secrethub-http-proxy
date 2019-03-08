@@ -24,7 +24,7 @@ func init() {
 	flag.StringVar(&credential, "C", "", "(Required) SecretHub credential")
 	flag.StringVar(&credentialPassphrase, "P", "", "Passphrase to unlock SecretHub credential")
 	flag.IntVar(&port, "p", 8080, "Port to listen on")
-	flag.StringVar(&host, "h", "localhost", "Host to listen on")
+	flag.StringVar(&host, "h", "127.0.0.1", "Host to listen on")
 	flag.Parse()
 
 	if credential == "" {
