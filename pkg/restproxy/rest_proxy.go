@@ -35,7 +35,7 @@ func NewRESTProxy(client secrethub.Client, host string, port int) ClientProxy {
 	proxy := &restProxy{
 		client: client,
 		server: &http.Server{
-			Addr:    fmt.Sprintf("%v:%v", host, port),
+			Addr:    fmt.Sprintf("%v:%d", host, port),
 			Handler: router,
 		},
 	}
