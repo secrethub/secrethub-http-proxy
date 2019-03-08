@@ -8,9 +8,9 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/keylockerbv/secrethub-go/pkg/secrethub"
-	"github.com/keylockerbv/secrethub/api"
-	"github.com/keylockerbv/secrethub/core/errio"
+	"github.com/secrethub/secrethub-go/internals/api"
+	"github.com/secrethub/secrethub-go/internals/errio"
+	"github.com/secrethub/secrethub-go/pkg/secrethub"
 )
 
 // ClientProxy gives the SecretHub Client a certain communication layer
