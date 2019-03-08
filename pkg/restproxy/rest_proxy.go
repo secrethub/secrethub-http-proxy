@@ -26,7 +26,7 @@ type restProxy struct {
 }
 
 // NewRESTProxy creates a proxy for the SecretHub Client, giving it a RESTful interface
-func NewRESTProxy(client secrethub.Client, port int) ClientProxy {
+func NewRESTProxy(client secrethub.Client, host string, port int) ClientProxy {
 	if port == 0 {
 		port = 8080
 	}
@@ -35,7 +35,7 @@ func NewRESTProxy(client secrethub.Client, port int) ClientProxy {
 	proxy := &restProxy{
 		client: client,
 		server: &http.Server{
-			Addr:    fmt.Sprintf(":%v", port),
+			Addr:    fmt.Sprintf("%v:%d", host, port),
 			Handler: router,
 		},
 	}
