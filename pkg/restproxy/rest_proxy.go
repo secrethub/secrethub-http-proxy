@@ -8,9 +8,9 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/keylockerbv/secrethub-go/pkg/secrethub"
-	"github.com/keylockerbv/secrethub/api"
-	"github.com/keylockerbv/secrethub/core/errio"
+	"github.com/secrethub/secrethub-go/internals/api"
+	"github.com/secrethub/secrethub-go/internals/errio"
+	"github.com/secrethub/secrethub-go/pkg/secrethub"
 )
 
 // ClientProxy gives the SecretHub Client a certain communication layer
@@ -35,7 +35,7 @@ func NewRESTProxy(client secrethub.Client, host string, port int) ClientProxy {
 	proxy := &restProxy{
 		client: client,
 		server: &http.Server{
-			Addr:    fmt.Sprintf("%v:%v", host, port),
+			Addr:    fmt.Sprintf("%v:%d", host, port),
 			Handler: router,
 		},
 	}
