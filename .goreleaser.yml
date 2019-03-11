@@ -1,0 +1,22 @@
+project_name: secrethub-proxy
+
+builds:
+  - binary: "{{ .ProjectName }}"
+    main: ./cmd/secrethub-proxy/main.go
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - 386
+
+archive:
+  name_template: "{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}"
+  replacements:
+    darwin: macOS
+  files:
+    # Only archive the binary
+    - none* 
