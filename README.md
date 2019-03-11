@@ -39,11 +39,11 @@ Example:
 
 Returns the secret contents as bytes.
 
-### `POST`
+#### `POST`
 
 Creates or updates a secret. Expects the secret contents as bytes.
 
-### `DELETE`
+#### `DELETE`
 
 Deletes the entire secret and its history.
 
