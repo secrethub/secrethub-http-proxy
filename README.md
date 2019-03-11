@@ -12,14 +12,40 @@ This moves the responsibility of securing your secrets to the domain of network 
 Download and extract the [latest release](https://github.com/keylockerbv/secrethub-proxy/releases/latest) of the SecretHub Proxy. Start it with your SecretHub credential:
 
 ```
-secrethub-proxy -C $(cat ~/.secrethub/credential) -p 8080
+./secrethub-proxy -C $(cat ~/.secrethub/credential) -p 8080
 ```
 
 ### Docker
 
+You can also run the proxy as a [Docker container](). Assuming you have a SecretHub credential stored in the default `$HOME/.secrethub` location, run:
+
 ```
 docker run -p 8080:8080 --name secrethub -v /$HOME/.secrethub:/secrethub secrethubio/proxy
 ```
+
+## Usage
+
+With the proxy up and running, you can perform the following HTTP requests:
+
+### /v1/secrets/:path
+
+Example:
+
+```
+/v1/secrets/my-org/my-repo/my-secret
+```
+
+#### GET
+
+Returns the secret contents as bytes.
+
+### POST
+
+Creates or updates a secret. Expects the secret contents as bytes.
+
+### DELETE
+
+Deletes the entire secret and its history.
 
 ## Development
 
