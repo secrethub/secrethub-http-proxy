@@ -1,17 +1,17 @@
 version: 2
 jobs:
+  build: &build
+    steps:
+      - checkout
+      - run: make build
   build_golang_1.11:
+    <<: *build
     docker:
       - image: circleci/golang:1.11
-    steps:
-      - checkout
-      - run: make build
   build_golang_1.12:
+    <<: *build
     docker:
       - image: circleci/golang:1.12
-    steps:
-      - checkout
-      - run: make build
 
 workflows:
   version: 2
