@@ -2,13 +2,14 @@
 
 > [SecretHub](https://secrethub.io) is a developer tool to help you keep database passwords, API tokens, and other secrets out of IT automation scripts.
 
-The SecretHub Proxy provides a RESTful interface to the SecretHub Client
+The SecretHub Proxy adds a RESTful interface to the SecretHub Client and can be configured with a SecretHub credential at start, thereby removing the need of passing it in on every request. 
+This moves the responsibility of securing your secrets to the domain of network security.
 
 ## Installation
 
 ### Binary
 
-Download and extract the [latest release](https://github.com/keylockerbv/secrethub-proxy/releases/latest) of the SecretHub Proxy. Start it using:
+Download and extract the [latest release](https://github.com/keylockerbv/secrethub-proxy/releases/latest) of the SecretHub Proxy. Start it with your SecretHub credential:
 
 ```
 secrethub-proxy -C $(cat ~/.secrethub/credential) -p 8080
