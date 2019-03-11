@@ -27,7 +27,7 @@ docker run -p 8080:8080 --name secrethub -v /$HOME/.secrethub:/secrethub secreth
 
 With the proxy up and running, you can perform the following HTTP requests:
 
-### /v1/secrets/:path
+### `/v1/secrets/:path`
 
 Example:
 
@@ -35,15 +35,15 @@ Example:
 /v1/secrets/my-org/my-repo/my-secret
 ```
 
-#### GET
+#### `GET`
 
 Returns the secret contents as bytes.
 
-### POST
+### `POST`
 
 Creates or updates a secret. Expects the secret contents as bytes.
 
-### DELETE
+### `DELETE`
 
 Deletes the entire secret and its history.
 
