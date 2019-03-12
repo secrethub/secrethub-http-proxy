@@ -20,3 +20,13 @@ archive:
   files:
     # Only archive the binary
     - none* 
+
+dockers:
+  -
+    goos: linux
+    goarch: amd64
+    binaries:
+      - secrethub-proxy
+    image_templates:
+      - "secrethubio/proxy:{{ .Version }}"
+      - "secrethubio/proxy:latest"
