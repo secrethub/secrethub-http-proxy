@@ -17,10 +17,16 @@ Download and extract the [latest release](https://github.com/keylockerbv/secreth
 
 ### Docker
 
-You can also run the proxy as a [Docker container](). Assuming you have a SecretHub credential stored in the default `$HOME/.secrethub` location, run:
+You can also run the proxy as a [Docker container](https://hub.docker.com/r/secrethubio/proxy). Assuming you have a SecretHub credential stored in the default `$HOME/.secrethub` location, you can run it with the credential mounted as volume:
 
 ```
-docker run -p 8080:8080 --name secrethub -v /$HOME/.secrethub:/secrethub secrethubio/proxy
+docker run -p 8080:8080 --name secrethub -v $HOME/.secrethub:/secrethub secrethubio/proxy
+```
+
+You can also pass in the credential as an environment variable:
+
+```
+docker run -p 8080:8080 --name secrethub -e SECRETHUB_CREDENTIAL=$(cat $HOME/.secrethub/credential) secrethubio/proxy
 ```
 
 ## Usage
