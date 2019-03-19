@@ -80,6 +80,11 @@ Creates or updates a secret. Expects the secret contents as bytes.
 
 Deletes the entire secret and its history.
 
+## Terraform State Backend
+
+For those of you using [Terraform](https://www.terraform.io), the SecretHub Proxy can function as a [Terraform Backend](https://www.terraform.io/docs/backends/index.html) for your `.tfstate`. 
+Read more about this on our [blog post]().
+
 ## Development
 
 Get the source code:
