@@ -1,4 +1,4 @@
-# SecretHub Proxy
+# SecretHub Proxy <sup>[BETA](#beta)</sup>
 
 > [SecretHub](https://secrethub.io) is a developer tool to help you keep database passwords, API tokens, and other secrets out of IT automation scripts.
 
@@ -11,8 +11,8 @@ You can be configure it with a SecretHub credential at start, thereby removing t
 
 The SecretHub Proxy opens up the configured SecretHub account over HTTP. 
 This moves the responsibility of securing your secrets to the domain of network security, which comes with its own risks. 
-So use this with caution and make sure the account has access to only those secrets it absolutely needs. 
- 
+So use this with caution and make sure the credential you pass in only has access to only those secrets it needs. 
+
 It is recommended to [create a service account](https://secrethub.io/docs/reference/service-command/), tightly control it with [access rules](https://secrethub.io/docs/reference/acl-command/), and use the service credential instead of your own SecretHub account.
 
 ```
@@ -79,6 +79,12 @@ Creates or updates a secret. Expects the secret contents as bytes.
 #### `DELETE`
 
 Deletes the entire secret and its history.
+
+## BETA
+
+This project is currently in beta and we'd love your feedback! Check out the [issues](https://github.com/keylockerbv/secrethub-proxy/issues) and feel free to suggest cool ideas, use cases, or improvements. 
+
+Because it's still in beta, you can expect to see some changes introduced. Pull requests are very welcome.
 
 ## Terraform State Backend
 
