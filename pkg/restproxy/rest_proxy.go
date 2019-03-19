@@ -45,10 +45,10 @@ func NewRESTProxy(client secrethub.Client, host string, port int) ClientProxy {
 }
 
 func (p *restProxy) addRoutes(r *mux.Router) {
-	v1 := r.PathPrefix("/v1/").Subrouter()
+	v := r.PathPrefix("/v1beta/").Subrouter()
 
-	v1.PathPrefix("/secrets/").Handler(
-		http.StripPrefix("/v1/secrets/", http.HandlerFunc(p.handleSecret)),
+	v.PathPrefix("/secrets/").Handler(
+		http.StripPrefix("/v1beta/secrets/raw/", http.HandlerFunc(p.handleSecret)),
 	)
 }
 
