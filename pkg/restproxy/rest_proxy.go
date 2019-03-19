@@ -125,8 +125,27 @@ func (p *restProxy) handleSecret(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.WriteHeader(http.StatusCreated)
+	case "DELETE":
+		err := p.client.Secrets().Delete(path)
+		if err != nil {
+			var errCode int
+
+			if err, ok := err.(errio.PublicStatusError); ok {
+				errCode = err.StatusCode
+			}
+
+			if errCode == 0 {
+				errCode = http.StatusInternalServerError
+			}
+
+			w.WriteHeader(errCode)
+			io.WriteString(w, err.Error())
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
 	default:
-		w.Header().Add("Allow", "GET, POST")
+		w.Header().Add("Allow", "GET, POST, DELETE")
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
