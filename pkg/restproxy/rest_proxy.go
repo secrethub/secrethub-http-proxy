@@ -117,7 +117,7 @@ func (p *restProxy) handleSecret(w http.ResponseWriter, r *http.Request) {
 }
 
 // writeError writes an error message and HTTP status code to the ResponseWriter.
-// The HTTP status code is derrived from the error, unless overriden by the statusCode argument.
+// The HTTP status code is derived from the error, unless overriden by the statusCode argument.
 func writeError(w http.ResponseWriter, err error, statusCode int) {
 	if statusCode == 0 {
 		if err, ok := err.(errio.PublicStatusError); ok {
