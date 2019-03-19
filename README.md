@@ -46,12 +46,12 @@ docker run -p 8080:8080 --name secrethub -e SECRETHUB_CREDENTIAL=$(cat $HOME/.se
 
 With the proxy up and running, you can perform the following HTTP requests:
 
-### `/v1/secrets/:path`
+### `/v1beta/secrets/raw/:path`
 
 Example:
 
 ```
-/v1/secrets/my-org/my-repo/my-secret
+/v1beta/secrets/raw/my-org/my-repo/my-secret
 ```
 
 #### `GET`
