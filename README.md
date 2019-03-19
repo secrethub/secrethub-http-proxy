@@ -2,8 +2,22 @@
 
 > [SecretHub](https://secrethub.io) is a developer tool to help you keep database passwords, API tokens, and other secrets out of IT automation scripts.
 
-The SecretHub Proxy adds a RESTful interface to the SecretHub Client and can be configured with a SecretHub credential at start, thereby removing the need of passing it in on every request. 
-This moves the responsibility of securing your secrets to the domain of network security.
+The SecretHub Proxy adds a RESTful HTTP interface to the [SecretHub Client](https://). 
+Apps can this way still use SecretHub, without having to directly include the client as a binary dependency.
+
+You can be configure it with a SecretHub credential at start, thereby removing the need of passing it in on every request. 
+
+### A note on security
+
+The SecretHub Proxy opens up the configured SecretHub account over HTTP. 
+This moves the responsibility of securing your secrets to the domain of network security, which comes with its own risks. 
+So use this with caution and make sure the account has access to only those secrets it absolutely needs. 
+ 
+It is recommended to [create a service account](https://secrethub.io/docs/reference/service-command/), tightly control it with [access rules](https://secrethub.io/docs/reference/acl-command/), and use the service credential instead of your own SecretHub account.
+
+```
+secrethub service init --permission read --desc my-app
+```
 
 ## Installation
 
