@@ -16,7 +16,7 @@ So use this with caution and make sure the credential you pass in only has acces
 It is recommended to [create a service account](https://secrethub.io/docs/reference/service-command/), tightly control it with [access rules](https://secrethub.io/docs/reference/acl-command/), and use the service credential instead of your own SecretHub account.
 
 ```
-secrethub service init --permission read --desc my-app
+secrethub service init my-org/my-repo --permission read --desc my-app
 ```
 
 ## Installation
@@ -38,7 +38,7 @@ If upon signup you've chosen to lock your credential with a passphrase:
 ### Docker
 
 You can also run the proxy as a [Docker container](https://hub.docker.com/r/secrethubio/proxy). 
-Assuming you have a SecretHub credential stored in the default `$HOME/.secrethub` location, you can run it with the credential mounted as volume:
+Assuming you have a SecretHub credential stored in the default `$HOME/.secrethub` location, you can run it with the credential mounted as a volume:
 
 ```
 docker run -p 8080:8080 --name secrethub -v $HOME/.secrethub:/secrethub secrethubio/proxy
