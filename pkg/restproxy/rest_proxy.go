@@ -103,7 +103,7 @@ func (p *restProxy) handleSecret(w http.ResponseWriter, r *http.Request) {
 
 		w.WriteHeader(http.StatusCreated)
 	case "DELETE":
-		err := p.client.Secrets().Delete(path)
+		err := p.client.Secrets().Versions().Delete(path)
 		if err != nil {
 			writeError(w, err, 0)
 			return
