@@ -10,12 +10,12 @@
 ![GolangCI](https://golangci.com/badges/github.com/secrethub/secrethub-go.svg)
 ![Go Report Card](https://goreportcard.com/badge/github.com/secrethub/secrethub-go)
 
-> [SecretHub](https://secrethub.io) is a developer tool to help you keep database passwords, API tokens, and other secrets out of IT automation scripts.
-
 The SecretHub Proxy adds a RESTful HTTP interface to the [SecretHub Client](https://). 
 Apps can this way still use SecretHub, without having to directly include the client as a binary dependency.
 
 You can be configure it with a SecretHub credential at start, thereby removing the need of passing it in on every request. 
+
+> [SecretHub](https://secrethub.io) is a developer tool to help you keep database passwords, API tokens, and other secrets out of IT automation scripts.
 
 ### A note on security
 
