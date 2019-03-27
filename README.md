@@ -1,9 +1,9 @@
 <p align="center">
   <img src="https://secrethub.io/img/secrethub-logo.svg" alt="SecretHub" width="400px"/>
 </p>
-<h1 align="center">
-  <i>Proxy<sup><a href="#beta">BETA</a></sup></i>
-</h1>
+<h2 align="center">
+  <i>HTTP Proxy<sup><a href="#beta">BETA</a></sup></i>
+</h2>
 
 ![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)
 ![Travis CI](https://travis-ci.org/secrethub/secrethub-go.svg?branch=master)
