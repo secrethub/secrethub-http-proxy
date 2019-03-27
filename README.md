@@ -1,7 +1,14 @@
 <p align="center">
   <img src="https://secrethub.io/img/secrethub-logo.svg" alt="SecretHub" width="400px"/>
 </p>
-<h1 align="center">Proxy<sup><a href="#beta">BETA</a></sup></h1>
+<h1 align="center">
+  <i>Proxy<sup><a href="#beta">BETA</a></sup></i>
+</h1>
+
+![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)
+![Travis CI](https://travis-ci.org/secrethub/secrethub-go.svg?branch=master)
+![GolangCI](https://golangci.com/badges/github.com/secrethub/secrethub-go.svg)
+![Go Report Card](https://goreportcard.com/badge/github.com/secrethub/secrethub-go)
 
 > [SecretHub](https://secrethub.io) is a developer tool to help you keep database passwords, API tokens, and other secrets out of IT automation scripts.
 
