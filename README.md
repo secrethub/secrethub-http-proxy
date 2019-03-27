@@ -1,11 +1,21 @@
-# SecretHub Proxy <sup>[BETA](#beta)</sup>
+<p align="center">
+  <img src="https://secrethub.io/img/secrethub-logo.svg" alt="SecretHub" width="400px"/>
+</p>
+<h2 align="center">
+  <i>HTTP Proxy<sup><a href="#beta">BETA</a></sup></i>
+</h2>
 
-> [SecretHub](https://secrethub.io) is a developer tool to help you keep database passwords, API tokens, and other secrets out of IT automation scripts.
+![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)
+![Travis CI](https://travis-ci.org/secrethub/secrethub-go.svg?branch=master)
+![GolangCI](https://golangci.com/badges/github.com/secrethub/secrethub-go.svg)
+![Go Report Card](https://goreportcard.com/badge/github.com/secrethub/secrethub-go)
 
 The SecretHub Proxy adds a RESTful HTTP interface to the [SecretHub Client](https://). 
 Apps can this way still use SecretHub, without having to directly include the client as a binary dependency.
 
 You can be configure it with a SecretHub credential at start, thereby removing the need of passing it in on every request. 
+
+> [SecretHub](https://secrethub.io) is a developer tool to help you keep database passwords, API tokens, and other secrets out of IT automation scripts.
 
 ### A note on security
 
