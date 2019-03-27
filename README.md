@@ -1,4 +1,7 @@
-# SecretHub Proxy <sup>[BETA](#beta)</sup>
+<p align="center">
+  <img src="https://secrethub.io/img/secrethub-logo.svg" alt="SecretHub" width="400px"/>
+</p>
+<h1 align="center">Proxy<sup><a href="#beta">BETA</a></sup></h1>
 
 > [SecretHub](https://secrethub.io) is a developer tool to help you keep database passwords, API tokens, and other secrets out of IT automation scripts.
 
