@@ -66,8 +66,7 @@ func (p *restProxy) handleSecret(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
 	err := api.ValidateSecretPath(path)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		io.WriteString(w, err.Error())
+		writeError(w, err, http.StatusBadRequest)
 		return
 	}
 
@@ -75,18 +74,7 @@ func (p *restProxy) handleSecret(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		secret, err := p.client.Secrets().Versions().GetWithData(path)
 		if err != nil {
-			var errCode int
-
-			if err, ok := err.(errio.PublicStatusError); ok {
-				errCode = err.StatusCode
-			}
-
-			if errCode == 0 {
-				errCode = http.StatusInternalServerError
-			}
-
-			w.WriteHeader(errCode)
-			io.WriteString(w, err.Error())
+			writeError(w, err, 0)
 			return
 		}
 
@@ -95,38 +83,52 @@ func (p *restProxy) handleSecret(w http.ResponseWriter, r *http.Request) {
 	case "POST":
 		secret, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			io.WriteString(w, err.Error())
+			writeError(w, err, http.StatusInternalServerError)
 			return
 		}
 
 		_, err = p.client.Secrets().Write(path, secret)
 		if err != nil {
-			var errCode int
-
-			if err, ok := err.(errio.PublicStatusError); ok {
-				errCode = err.StatusCode
-			}
-
+			statusCode := 0
 			switch err {
 			case secrethub.ErrCannotWriteToVersion,
 				secrethub.ErrEmptySecret,
 				secrethub.ErrSecretTooBig:
-				errCode = http.StatusBadRequest
+				statusCode = http.StatusBadRequest
 			}
 
-			if errCode == 0 {
-				errCode = http.StatusInternalServerError
-			}
-
-			w.WriteHeader(errCode)
-			io.WriteString(w, err.Error())
+			writeError(w, err, statusCode)
 			return
 		}
 
 		w.WriteHeader(http.StatusCreated)
+	case "DELETE":
+		err := p.client.Secrets().Versions().Delete(path)
+		if err != nil {
+			writeError(w, err, 0)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
 	default:
-		w.Header().Add("Allow", "GET, POST")
+		w.Header().Add("Allow", "GET, POST, DELETE")
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
+}
+
+// writeError writes an error message and HTTP status code to the ResponseWriter.
+// The HTTP status code is derived from the error, unless overriden by the statusCode argument.
+func writeError(w http.ResponseWriter, err error, statusCode int) {
+	if statusCode == 0 {
+		if err, ok := err.(errio.PublicStatusError); ok {
+			statusCode = err.StatusCode
+		}
+
+		if statusCode == 0 {
+			statusCode = http.StatusInternalServerError
+		}
+	}
+
+	w.WriteHeader(statusCode)
+	io.WriteString(w, err.Error())
 }
