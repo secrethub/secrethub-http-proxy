@@ -1,5 +1,5 @@
 # Go
-secrethub-proxy
+secrethub-http-proxy
 *.exe
 *.exe~
 *.dll
