@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://secrethub.io/img/secrethub-logo.svg" alt="SecretHub" width="400px"/>
+  <img src="https://secrethub.io/img/secrethub-logo.svg" alt="SecretHub" width="380px"/>
 </p>
 <h1 align="center">
-  HTTP Proxy<sup><a href="#beta">BETA</a></sup>
+  <i>HTTP Proxy<sup><a href="#beta">BETA</a></sup></i>
 </h1>
 
 ![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)
