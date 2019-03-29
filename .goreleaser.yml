@@ -21,8 +21,7 @@ archive:
   replacements:
     darwin: macOS
   files:
-    # Only archive the binary
-    - none* 
+    - LICENSE
 
 dockers:
   -
