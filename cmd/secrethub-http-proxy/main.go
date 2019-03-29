@@ -8,7 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/keylockerbv/secrethub-proxy/pkg/restproxy"
+	"github.com/keylockerbv/secrethub-http-proxy/pkg/restproxy"
 	"github.com/secrethub/secrethub-go/pkg/secrethub"
 )
 
@@ -67,10 +67,10 @@ func gracefulShutdown(proxy restproxy.ClientProxy) {
 }
 
 func exit(err error) {
-	fmt.Printf("secrethub-proxy: error: %v\n", err)
+	fmt.Printf("secrethub-http-proxy: error: %v\n", err)
 	os.Exit(1)
 }
 
 func log(message string) {
-	fmt.Printf("secrethub-proxy: %v\n", message)
+	fmt.Printf("secrethub-http-proxy: %v\n", message)
 }

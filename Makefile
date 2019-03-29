@@ -1,2 +1,2 @@
 build:
-	go build ./cmd/secrethub-proxy
+	go build ./cmd/secrethub-http-proxy
