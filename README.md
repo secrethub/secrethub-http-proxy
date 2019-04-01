@@ -5,11 +5,6 @@
   <i>HTTP Proxy<sup><a href="#beta">BETA</a></sup></i>
 </h1>
 
-![GoDoc](http://img.shields.io/badge/godoc-reference-blue.svg)
-![Travis CI](https://travis-ci.org/secrethub/secrethub-go.svg?branch=master)
-![GolangCI](https://golangci.com/badges/github.com/secrethub/secrethub-go.svg)
-![Go Report Card](https://goreportcard.com/badge/github.com/secrethub/secrethub-go)
-
 The SecretHub HTTP Proxy adds a RESTful interface to the [SecretHub Client](https://github.com/secrethub/secrethub-go). 
 Apps can this way still use SecretHub, without having to directly include the client as a binary dependency.
 
