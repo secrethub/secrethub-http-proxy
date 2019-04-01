@@ -8,6 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/abiosoft/readline"
 	"github.com/keylockerbv/secrethub-http-proxy/pkg/restproxy"
 	"github.com/secrethub/secrethub-go/pkg/secrethub"
 )
@@ -32,12 +33,44 @@ func init() {
 		exit(fmt.Errorf("credential is required"))
 	}
 
-	cred, err := secrethub.NewCredential(credential, credentialPassphrase)
+	cred, err := findCredential(credential, credentialPassphrase)
 	if err != nil {
 		exit(err)
 	}
 
 	client = secrethub.NewClient(cred, nil)
+}
+
+func findCredential(credential string, passphrase string) (secrethub.Credential, error) {
+	parser := secrethub.NewCredentialParser(secrethub.DefaultCredentialDecoders)
+
+	encoded, err := parser.Parse(credential)
+	if err != nil {
+		return nil, err
+	}
+
+	if encoded.IsEncrypted() {
+		if passphrase == "" {
+			passphrase, err = promptPassword()
+			if err != nil {
+				return nil, err
+			}
+		}
+
+		key, err := secrethub.NewPassBasedKey([]byte(passphrase))
+		if err != nil {
+			return nil, err
+		}
+
+		credential, err := encoded.DecodeEncrypted(key)
+		if err != nil {
+			return nil, err
+		}
+
+		return credential, err
+	}
+
+	return encoded.Decode()
 }
 
 func main() {
@@ -50,6 +83,20 @@ func main() {
 	if err != nil && err != http.ErrServerClosed {
 		exit(err)
 	}
+}
+
+func promptPassword() (string, error) {
+	reader, err := readline.New("")
+	password, err := reader.ReadPassword("Please put in the passphrase to unlock your credential:")
+	if err == readline.ErrInterrupt {
+		return "", nil
+	}
+
+	if err != nil {
+		return "", err
+	}
+
+	return string(password), nil
 }
 
 func gracefulShutdown(proxy restproxy.ClientProxy) {
