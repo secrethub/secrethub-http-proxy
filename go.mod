@@ -1,9 +1,8 @@
 module github.com/keylockerbv/secrethub-http-proxy
 
 require (
-	github.com/abiosoft/readline v0.0.0-20180607040430-155bce2042db
-	github.com/chzyer/logex v1.1.10 // indirect
-	github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1 // indirect
 	github.com/gorilla/mux v1.7.0
 	github.com/secrethub/secrethub-go v0.17.0
+	golang.org/x/crypto v0.0.0-20190225124518-7f87c0fbb88b
+	golang.org/x/sys v0.0.0-20190329044733-9eb1bfa1ce65 // indirect
 )

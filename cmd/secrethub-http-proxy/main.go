@@ -8,9 +8,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/abiosoft/readline"
 	"github.com/keylockerbv/secrethub-http-proxy/pkg/restproxy"
 	"github.com/secrethub/secrethub-go/pkg/secrethub"
+	"golang.org/x/crypto/ssh/terminal"
 )
 
 var (
@@ -86,12 +86,9 @@ func main() {
 }
 
 func promptPassword() (string, error) {
-	reader, err := readline.New("")
-	password, err := reader.ReadPassword("Please put in the passphrase to unlock your credential:")
-	if err == readline.ErrInterrupt {
-		return "", nil
-	}
-
+	fmt.Printf("Please put in the passphrase to unlock your credential:")
+	password, err := terminal.ReadPassword(int(syscall.Stdin))
+	fmt.Println()
 	if err != nil {
 		return "", err
 	}
