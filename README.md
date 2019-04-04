@@ -57,11 +57,7 @@ If upon signup you've chosen to lock your credential with a passphrase, run the 
 docker run -it -p 8080:8080 --name secrethub -e SECRETHUB_CREDENTIAL=$(cat $HOME/.secrethub/credential) secrethub/http-proxy
 ```
 
-Alternatively, you can use the `SECRETHUB_CREDENTIAL_PASSPHRASE` environment variable:
-
-```
-docker run -p 8080:8080 --name secrethub -e SECRETHUB_CREDENTIAL=$(cat $HOME/.secrethub/credential) -e SECRETHUB_CREDENTIAL_PASSPHRASE=mycredentialpassphrase secrethub/http-proxy
-```
+Alternatively, the passphrase can be sourced from the `SECRETHUB_CREDENTIAL_PASSPHRASE` environment variable.
 
 ## Usage
 
