@@ -42,19 +42,19 @@ You can also run the proxy as a [Docker container](https://hub.docker.com/r/secr
 Assuming you have a SecretHub credential stored in the default `$HOME/.secrethub` location, you can run it with the credential mounted as a volume:
 
 ```
-docker run -p 8080:8080 --name secrethub -v $HOME/.secrethub:/secrethub secrethub/http-proxy
+docker run -p 127.0.0.1:8080:8080 --name secrethub -v $HOME/.secrethub:/secrethub secrethub/http-proxy
 ```
 
 You can also pass in the credential as an environment variable:
 
 ```
-docker run -p 8080:8080 --name secrethub -e SECRETHUB_CREDENTIAL=$(cat $HOME/.secrethub/credential) secrethub/http-proxy
+docker run -p 127.0.0.1:8080:8080 --name secrethub -e SECRETHUB_CREDENTIAL=$(cat $HOME/.secrethub/credential) secrethub/http-proxy
 ```
 
 If upon signup you've chosen to lock your credential with a passphrase, run the container with `-it` to get prompted for your passphrase.
 
 ```
-docker run -it -p 8080:8080 --name secrethub -e SECRETHUB_CREDENTIAL=$(cat $HOME/.secrethub/credential) secrethub/http-proxy
+docker run -it -p 127.0.0.1:8080:8080 --name secrethub -e SECRETHUB_CREDENTIAL=$(cat $HOME/.secrethub/credential) secrethub/http-proxy
 ```
 
 Alternatively, the passphrase can be sourced from the `SECRETHUB_CREDENTIAL_PASSPHRASE` environment variable.
