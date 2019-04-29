@@ -1,4 +1,4 @@
-module github.com/keylockerbv/secrethub-http-proxy
+module github.com/secrethub/secrethub-http-proxy
 
 require (
 	github.com/gorilla/mux v1.7.0
