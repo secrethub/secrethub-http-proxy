@@ -28,7 +28,7 @@ secrethub service init my-org/my-repo --permission read --desc my-app
 
 ### Binary
 
-Download and extract the [latest release](https://github.com/keylockerbv/secrethub-http-proxy/releases/latest) of the SecretHub HTTP Proxy. Start it with your SecretHub credential:
+Download and extract the [latest release](https://github.com/secrethub/secrethub-http-proxy/releases/latest) of the SecretHub HTTP Proxy. Start it with your SecretHub credential:
 
 ```
 ./secrethub-http-proxy -C $(cat ~/.secrethub/credential) -p 8080
@@ -85,7 +85,7 @@ Deletes the entire secret and its history.
 
 ## BETA
 
-This project is currently in beta and we'd love your feedback! Check out the [issues](https://github.com/keylockerbv/secrethub-http-proxy/issues) and feel free to suggest cool ideas, use cases, or improvements. 
+This project is currently in beta and we'd love your feedback! Check out the [issues](https://github.com/secrethub/secrethub-http-proxy/issues) and feel free to suggest cool ideas, use cases, or improvements.
 
 Because it's still in beta, you can expect to see some changes introduced. Pull requests are very welcome.
 
@@ -99,7 +99,7 @@ Read more about this on our [blog post]().
 Get the source code:
 
 ```
-git clone https://github.com/keylockerbv/secrethub-http-proxy
+git clone https://github.com/secrethub/secrethub-http-proxy
 ```
 
 Build it using:

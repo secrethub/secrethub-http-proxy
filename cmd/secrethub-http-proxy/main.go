@@ -8,7 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/keylockerbv/secrethub-http-proxy/pkg/restproxy"
+	"github.com/secrethub/secrethub-http-proxy/pkg/restproxy"
 	"github.com/secrethub/secrethub-go/pkg/secrethub"
 	"golang.org/x/crypto/ssh/terminal"
 )
