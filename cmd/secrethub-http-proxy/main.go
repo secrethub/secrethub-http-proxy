@@ -9,7 +9,9 @@ import (
 	"syscall"
 
 	"github.com/secrethub/secrethub-http-proxy/pkg/restproxy"
+
 	"github.com/secrethub/secrethub-go/pkg/secrethub"
+
 	"golang.org/x/crypto/ssh/terminal"
 )
 
