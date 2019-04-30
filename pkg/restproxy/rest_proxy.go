@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -79,7 +80,10 @@ func (p *restProxy) handleSecret(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.WriteHeader(http.StatusOK)
-		w.Write(secret.Data)
+		_, err = w.Write(secret.Data)
+		if err != nil {
+			log.Printf("failed to write HTTP response: %s", err)
+		}
 	case "POST":
 		secret, err := ioutil.ReadAll(r.Body)
 		if err != nil {
@@ -130,5 +134,8 @@ func writeError(w http.ResponseWriter, err error, statusCode int) {
 	}
 
 	w.WriteHeader(statusCode)
-	io.WriteString(w, err.Error())
+	_, err = io.WriteString(w, err.Error())
+	if err != nil {
+		log.Printf("failed to write error to HTTP response: %s", err)
+	}
 }
