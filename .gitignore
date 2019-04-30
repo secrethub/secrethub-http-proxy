@@ -1,0 +1,12 @@
+# Go
+secrethub-http-proxy
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+dist/
+
+# IDE
+.vscode
+.idea
