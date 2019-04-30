@@ -5,6 +5,7 @@
   <i>HTTP Proxy<sup><a href="#beta">BETA</a></sup></i>
 </h1>
 
+[![GoDoc](https://godoc.org/github.com/secrethub/secrethub-http-proxy?status.svg)][godoc]
 [![CircleCI](https://circleci.com/gh/secrethub/secrethub-http-proxy.svg)][circleci]
 [![Go Report Card](https://goreportcard.com/badge/github.com/secrethub/secrethub-http-proxy)][goreportcard]
 [![Version]( https://img.shields.io/github/release/secrethub/secrethub-http-proxy.svg)][latest-version]
@@ -119,6 +120,7 @@ To build the Docker image from scratch, you can use:
 docker build -t secrethub-http-proxy .
 ```
 
+[godoc]: https://godoc.org/github.com/secrethub/secrethub-http-proxy
 [circleci]: https://circleci.com/gh/secrethub/secrethub-http-proxy
 [discord]: https://discord.gg/NWmxVeb
 [latest-version]: https://github.com/secrethub/secrethub-http-proxy/releases/latest
