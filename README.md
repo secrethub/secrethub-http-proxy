@@ -102,8 +102,14 @@ Get the source code:
 git clone https://github.com/secrethub/secrethub-http-proxy
 ```
 
-Build it using:
+To build the binary from source, use:
 
 ```
 make build
+```
+
+To build the Docker image from scratch, you can use:
+
+```
+docker build -t secrethub-http-proxy .
 ```
