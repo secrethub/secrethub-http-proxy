@@ -23,13 +23,3 @@ archive:
       format: zip
   files:
     - LICENSE
-
-dockers:
-  -
-    goos: linux
-    goarch: amd64
-    binaries:
-      - secrethub-http-proxy
-    image_templates:
-      - "secrethub/http-proxy:{{ .Version }}"
-      - "secrethub/http-proxy:latest"
