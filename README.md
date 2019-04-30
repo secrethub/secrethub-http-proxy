@@ -5,6 +5,11 @@
   <i>HTTP Proxy<sup><a href="#beta">BETA</a></sup></i>
 </h1>
 
+[![CircleCI](https://circleci.com/gh/secrethub/secrethub-http-proxy.svg)][circleci]
+[![Go Report Card](https://goreportcard.com/badge/github.com/secrethub/secrethub-http-proxy)][goreportcard]
+[![Version]( https://img.shields.io/github/release/secrethub/secrethub-http-proxy.svg)][latest-version]
+[![Discord](https://img.shields.io/badge/chat-on%20discord-7289da.svg?logo=discord)][discord]
+
 The SecretHub HTTP Proxy adds a RESTful interface to the [SecretHub Client](https://github.com/secrethub/secrethub-go). 
 Apps can this way still use SecretHub, without having to directly include the client as a binary dependency.
 
@@ -107,3 +112,8 @@ Build it using:
 ```
 make build
 ```
+
+[circleci]: https://circleci.com/gh/secrethub/secrethub-http-proxy
+[discord]: https://discord.gg/NWmxVeb
+[latest-version]: https://github.com/secrethub/secrethub-http-proxy/releases/latest
+[goreportcard]: https://goreportcard.com/report/github.com/secrethub/secrethub-http-proxy
